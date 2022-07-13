@@ -9,9 +9,14 @@ public class Main {
 		
 		Scanner scan = new Scanner(System.in);
 		
-		int command = scan.nextInt();
-		
-		System.out.printf("입력된 명령어 : %d\n", command);
+		while(true) {
+			System.out.printf("명령어 ) ");
+			String cmd = scan.nextLine();
+			
+			if(cmd.equals("exit")) {
+				break;
+			}
+		}
 		
 		System.out.println("==프로그램 종료==");
 		
