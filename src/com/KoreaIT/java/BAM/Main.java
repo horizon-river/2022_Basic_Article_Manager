@@ -36,17 +36,20 @@ public class Main {
 				String body = scan.nextLine();
 				
 				Article article = new Article(id, title, body);
+				articles.add(article);
 				
 				System.out.printf("%d번글이 생성되었습니다.\n", lastArticleId);
 				
 			} else if(cmd.equals("article list")) {
-				if(lastArticleId > 0) {
-					System.out.println("번호 / 제목");
-					for(int i = lastArticleId; i > 0 ;i--) {
-						
-					}
-				}else {
-					System.out.println("게시물이 없습니다.");					
+				if(articles.size() == 0) {
+					System.out.println("게시물이 없습니다.");
+					continue;
+				}
+				System.out.println("번호    |    제목");
+				for(int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					
+					System.out.printf("%d       |    %s\n", article.id, article.title);
 				}
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
