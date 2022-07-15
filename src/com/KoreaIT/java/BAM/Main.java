@@ -86,17 +86,14 @@ public class Main {
 				int id = Integer.parseInt(cmdBits[2]);
 				
 				boolean foundArticle = false;
+				int foundIndex = 0;
 				
 				for(int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 					
 					if(article.id == id) {
 						foundArticle = true;
-						
-						articles.remove(i);
-						
-						System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
-						
+						foundIndex = i;
 						break;
 					}
 				}
@@ -105,6 +102,10 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
+				
+				articles.remove(foundIndex);				
+				System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
+
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
