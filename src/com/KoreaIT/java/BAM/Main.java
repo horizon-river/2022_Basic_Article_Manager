@@ -108,15 +108,20 @@ public class Main {
 
 				int id = Integer.parseInt(cmdBits[2]);
 				
-				int foundIndex = -1;
+				Article foundArticle = null;
 				
 				for(int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 					
 					if(article.id == id) {
-						foundIndex = i;
+						foundArticle = article;
 						break;
 					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+					continue;
 				}
 				
 				System.out.printf("제목 : ");
@@ -124,9 +129,8 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = scan.nextLine();
 				
-				Article modifyArticle = articles.get(foundIndex);
-				modifyArticle.setTitle(title);
-				modifyArticle.setBody(body);
+				foundArticle.title = title;
+				foundArticle.body = body;
 				
 				System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
 				
@@ -152,14 +156,6 @@ class Article {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
-		this.body = body;
-	}
-	
-	void setTitle(String title) {
-		this.title = title;
-	}
-	
-	void setBody(String body) {
 		this.body = body;
 	}
 }
