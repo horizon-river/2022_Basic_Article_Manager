@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class App {
 	private List<Article> articles;
+	private List<Member> members;
 	
 	public App() {
 		articles = new ArrayList<>();
+		members = new ArrayList<>();
 	}
 	
 	public void run() {
@@ -137,6 +140,43 @@ public class App {
 				
 				System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
 				
+				
+			} else if(cmd.startsWith("member join")) {
+				int id = members.size() + 1;
+				boolean loginIdCheck = true;
+				String regDate = Util.getNowDateStr();
+				System.out.printf("로그인 아이디 : ");
+				String loginId = scan.nextLine();
+				
+				for(Member member : members) {
+					if(member.loginId.equals(loginId)) {
+						loginIdCheck = false;
+						break;
+					}
+				}
+				
+				if(!loginIdCheck) {
+					System.out.println("중복되는 로그인 아이디 입니다.");
+					continue;
+				}
+				
+				System.out.printf("로그인 비밀번호 : ");
+				String loginPw = scan.nextLine();
+				System.out.printf("로그인 비밀번호 확인 : ");
+				String loginPwConfirm = scan.nextLine();
+				
+				if(!loginPw.equals(loginPwConfirm)) {
+					System.out.println("비밀번호를 정확하게 입력해주세요");
+					continue;
+				}
+				
+				System.out.printf("성함을 입력해주세요 : ");
+				String name = scan.nextLine();
+				
+				Member member = new Member(id, regDate, loginId, loginPw, name);
+				members.add(member);
+				
+				System.out.printf("%d번 회원님 환영합니다.\n", id);
 				
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
