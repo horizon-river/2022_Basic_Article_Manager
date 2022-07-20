@@ -145,29 +145,36 @@ public class App {
 				int id = members.size() + 1;
 				boolean loginIdCheck = true;
 				String regDate = Util.getNowDateStr();
-				System.out.printf("로그인 아이디 : ");
-				String loginId = scan.nextLine();
+				String loginId = null;
 				
-				for(Member member : members) {
-					if(member.loginId.equals(loginId)) {
-						loginIdCheck = false;
-						break;
+				while(true) {
+					
+					System.out.printf("로그인 아이디 : ");
+					loginId = scan.nextLine();
+					
+					if(isJoinableLoginId(loginId) == false) {
+						if(!loginIdCheck) {
+							System.out.printf("%s은(는) 이미 사용중인 아이디 입니다.", loginId);
+							continue;
+						}
 					}
+					break;
 				}
 				
-				if(!loginIdCheck) {
-					System.out.println("중복되는 로그인 아이디 입니다.");
-					continue;
-				}
-				
-				System.out.printf("로그인 비밀번호 : ");
-				String loginPw = scan.nextLine();
-				System.out.printf("로그인 비밀번호 확인 : ");
-				String loginPwConfirm = scan.nextLine();
-				
-				if(!loginPw.equals(loginPwConfirm)) {
-					System.out.println("비밀번호를 정확하게 입력해주세요");
-					continue;
+				String loginPw = null;
+				String loginPwConfirm = null;
+				while(true) {
+					
+					System.out.printf("로그인 비밀번호 : ");
+					loginPw = scan.nextLine();
+					System.out.printf("로그인 비밀번호 확인 : ");
+					loginPwConfirm = scan.nextLine();
+					
+					if(loginPw.equals(loginPwConfirm) == false) {
+						System.out.println("비밀번호를 다시 입력해주세요");
+						continue;
+					}
+					break;
 				}
 				
 				System.out.printf("성함을 입력해주세요 : ");
@@ -187,6 +194,26 @@ public class App {
 		scan.close();
 	}
 	
+	private boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+		
+		if(index == -1) {
+			return true;
+		}
+		return false;
+	}
+
+	private int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
 	private int getArticleIndexById(int id) {
 		int i = 0;
 		for(Article article : articles) {
