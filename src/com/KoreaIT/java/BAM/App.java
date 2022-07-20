@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.controller.ArticleController;
+import com.KoreaIT.java.BAM.controller.MemberController;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
@@ -24,6 +26,9 @@ public class App {
 		makeTestData();
 		
 		Scanner scan = new Scanner(System.in);
+		
+		MemberController memberController = new MemberController(scan, members);
+		ArticleController articleController = new ArticleController();
 		
 		while(true) {
 			System.out.printf("명령어 ) ");
@@ -142,48 +147,8 @@ public class App {
 				
 				
 			} else if(cmd.startsWith("member join")) {
-				int id = members.size() + 1;
-				boolean loginIdCheck = true;
-				String regDate = Util.getNowDateStr();
-				String loginId = null;
 				
-				while(true) {
-					
-					System.out.printf("로그인 아이디 : ");
-					loginId = scan.nextLine();
-					
-					if(isJoinableLoginId(loginId) == false) {
-						if(!loginIdCheck) {
-							System.out.printf("%s은(는) 이미 사용중인 아이디 입니다.", loginId);
-							continue;
-						}
-					}
-					break;
-				}
-				
-				String loginPw = null;
-				String loginPwConfirm = null;
-				while(true) {
-					
-					System.out.printf("로그인 비밀번호 : ");
-					loginPw = scan.nextLine();
-					System.out.printf("로그인 비밀번호 확인 : ");
-					loginPwConfirm = scan.nextLine();
-					
-					if(loginPw.equals(loginPwConfirm) == false) {
-						System.out.println("비밀번호를 다시 입력해주세요");
-						continue;
-					}
-					break;
-				}
-				
-				System.out.printf("성함을 입력해주세요 : ");
-				String name = scan.nextLine();
-				
-				Member member = new Member(id, regDate, loginId, loginPw, name);
-				members.add(member);
-				
-				System.out.printf("%d번 회원님 환영합니다.\n", id);
+				memberController.doJoin();
 				
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
@@ -194,25 +159,7 @@ public class App {
 		scan.close();
 	}
 	
-	private boolean isJoinableLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-		
-		if(index == -1) {
-			return true;
-		}
-		return false;
-	}
-
-	private int getMemberIndexByLoginId(String loginId) {
-		int i = 0;
-		for(Member member : members) {
-			if(member.loginId.equals(loginId)) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
-	}
+	
 
 	private int getArticleIndexById(int id) {
 		int i = 0;
