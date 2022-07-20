@@ -38,35 +38,21 @@ public class App {
 				System.out.println("명령어를 입력해주세요.");
 				continue;
 			}
-			
 			if(cmd.equals("exit")) {
 				break;
 			}
-			
 			if(cmd.equals("article write")) {
-				
 				articleController.doWrite();
-				
 			} else if(cmd.startsWith("article list")) {
-				
 				articleController.showList(cmd);
-				
 			} else if(cmd.startsWith("article detail ")) {
-				
 				articleController.showDetail(cmd);
-				
 			} else if(cmd.startsWith("article delete ")) {
-				
 				articleController.doDelete(cmd);
-				
 			} else if(cmd.startsWith("article modify ")) {
-				
 				articleController.doModify(cmd);
-				
 			} else if(cmd.startsWith("member join")) {
-				
 				memberController.doJoin();
-				
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
@@ -75,7 +61,6 @@ public class App {
 		System.out.println("==프로그램 종료==");
 		scan.close();
 	}
-	
 
 	private void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");

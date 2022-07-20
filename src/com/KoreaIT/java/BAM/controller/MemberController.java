@@ -18,7 +18,6 @@ public class MemberController {
 	
 	public void doJoin() {
 		int id = members.size() + 1;
-		boolean loginIdCheck = true;
 		String regDate = Util.getNowDateStr();
 		String loginId = null;
 		
