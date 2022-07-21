@@ -35,22 +35,24 @@ public class App {
 			System.out.printf("명령어 ) ");
 			String cmd = scan.nextLine().trim();
 			
+			String[] cmdBits = cmd.split(" "); // article detail
+			
 			if(cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
 				continue;
 			}
+			
 			if(cmd.equals("exit")) {
 				break;
 			}
-			
-			String[] cmdBits = cmd.split(" "); // article detail
-			String controllerName = cmdBits[0]; // article
-			String actionMethodName = cmdBits[1]; // detail
 			
 			if(cmdBits.length == 1) {
 				System.out.println("명령어를 확인해주세요");
 				continue;
 			}
+			
+			String controllerName = cmdBits[0]; // article
+			String actionMethodName = cmdBits[1]; // detail
 			
 			Controller controller = null;
 			
@@ -63,7 +65,7 @@ public class App {
 				continue;
 			}
 			
-			controller.doAction(cmd);			
+			controller.doAction(cmd, actionMethodName);			
 			
 //			if(cmd.equals("article write")) {
 //				articleController.doWrite();

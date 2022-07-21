@@ -10,14 +10,23 @@ public class MemberController extends Controller {
 
 	private Scanner scan;
 	private List<Member> members;
+	private String cmd;
+	private String actionMethodName;
+	
+	public void doAction(String cmd, String actionMethodName) {
+		this.cmd = cmd;
+		this.actionMethodName = actionMethodName;
+		
+		switch(actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		}
+	}
 	
 	public MemberController(Scanner scan, List<Member> members) {
 		this.scan = scan;
 		this.members = members;
-	}
-	
-	public void doAction(String cmd) {
-		
 	}
 	
 	public void doJoin() {
