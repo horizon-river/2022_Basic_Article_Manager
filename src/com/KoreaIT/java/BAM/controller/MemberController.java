@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	private Scanner scan;
 	private List<Member> members;
@@ -16,8 +16,12 @@ public class MemberController {
 		this.members = members;
 	}
 	
+	public void doAction(String cmd) {
+		
+	}
+	
 	public void doJoin() {
-		int id = members.size() + 1;
+		int id = members.get(members.size() - 1).id + 1;
 		String regDate = Util.getNowDateStr();
 		String loginId = null;
 		

@@ -7,7 +7,7 @@ import java.util.Scanner;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	
 	private Scanner scan;
 	private List<Article> articles;
@@ -17,11 +17,13 @@ public class ArticleController {
 		this.articles = articles;
 	}
 	
-
+	public void doAction(String cmd) {
+		
+	}
 
 	public void doWrite() {
 		
-		int id = articles.size() + 1;
+		int id = articles.get(articles.size() - 1).id + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
 		String title = scan.nextLine();
