@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,15 +22,19 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+		default:
+			System.out.println("존재하지 않는 명령어 입니다.");
+			break;
 		}
 	}
 	
-	public MemberController(Scanner scan, List<Member> members) {
+	public MemberController(Scanner scan) {
 		this.scan = scan;
-		this.members = members;
+		
+		members = new ArrayList<>();
 	}
 	
-	public void doJoin() {
+	private void doJoin() {
 		int id = members.get(members.size() - 1).id + 1;
 		String regDate = Util.getNowDateStr();
 		String loginId = null;
