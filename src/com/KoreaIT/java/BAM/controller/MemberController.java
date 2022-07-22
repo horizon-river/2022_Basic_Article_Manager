@@ -16,6 +16,13 @@ public class MemberController extends Controller {
 	private String actionMethodName;
 	private Member loginedMember;
 	
+
+	public MemberController(Scanner scan) {
+		this.scan = scan;
+		
+		members = new ArrayList<>();
+	}
+	
 	public void doAction(String cmd, String actionMethodName) {
 		this.cmd = cmd;
 		this.actionMethodName = actionMethodName;
@@ -30,16 +37,66 @@ public class MemberController extends Controller {
 		case "profile":
 			showProfile();
 			break;
+		case "logout":
+			doLogout();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
+	}	
+	
+	private boolean isLogined() {
+		return loginedMember != null;
+	}
+	
+	private void doLogout() {
+		if(isLogined() == false) {
+			System.out.println("로그인 상태가 아닙니다");
+			return;
+		}
+		
+		loginedMember = null;
+		System.out.println("로그아웃 되었습니다");
+		
+	}
+	
+	private void doLogin() {
+		if(isLogined()) {
+			System.out.println("이미 로그인 상태입니다");
+			return;
+		}
+		
+		System.out.printf("로그인 아이디 : ");
+		String loginId = scan.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = scan.nextLine();
+		
+		Member member = getMemberByLoginId(loginId);
+		
+		if(member == null) {
+			System.out.println("일치하는 회원이 없습니다");
+			return;
+		}
+		
+		if(loginPw.equals(member.loginPw) == false) {
+			System.out.println("비밀번호를 다시 입력해주세요");
+			return;
+		}
+		
+		loginedMember = member;
+		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
+		
 	}
 
-	public MemberController(Scanner scan) {
-		this.scan = scan;
-		
-		members = new ArrayList<>();
+	private void showProfile() {
+		if(loginedMember == null) {
+			System.out.println("로그아웃 상태입니다");
+			return;
+		}else {
+			System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+			System.out.printf("이름 : %s\n", loginedMember.name);
+		}
 	}
 	
 	private void doJoin() {
@@ -83,38 +140,6 @@ public class MemberController extends Controller {
 		
 		System.out.printf("%d번 회원님 환영합니다.\n", id);
 		
-	}
-	
-	private void doLogin() {
-		System.out.printf("로그인 아이디 : ");
-		String loginId = scan.nextLine();
-		System.out.printf("로그인 비밀번호 : ");
-		String loginPw = scan.nextLine();
-		
-		Member member = getMemberByLoginId(loginId);
-		
-		if(member == null) {
-			System.out.println("일치하는 회원이 없습니다");
-			return;
-		}
-		
-		if(loginPw.equals(member.loginPw) == false) {
-			System.out.println("비밀번호를 다시 입력해주세요");
-			return;
-		}
-		
-		loginedMember = member;
-		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
-		
-	}
-	
-	private void showProfile() {
-		if(loginedMember != null) {
-			System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
-			System.out.printf("이름 : %s\n", loginedMember.name);
-		}else {
-			System.out.println("로그아웃 상태입니다");
-		}
 	}
 	
 	private Member getMemberByLoginId(String loginId) {
