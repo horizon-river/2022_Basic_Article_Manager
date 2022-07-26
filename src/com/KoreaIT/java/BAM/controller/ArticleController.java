@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -43,12 +45,15 @@ public class ArticleController extends Controller {
 	public ArticleController(Scanner scan){
 		this.scan = scan;
 
-		articles = new ArrayList<>();
+		articles = Container.articleDao.articles;
 	}
 
 	private void doWrite() {
 		
-		int id = articles.get(articles.size() - 1).id + 1;
+		int id = 1;
+		if(articles.size() > 0) {
+			id = articles.get(articles.size() - 1).id + 1;
+		}
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
 		String title = scan.nextLine();
@@ -88,11 +93,22 @@ public class ArticleController extends Controller {
 			}
 		}
 		
-		System.out.printf("번호    |      제목      |         %7s        |    작성자  |    조회\n", "날짜");
+		System.out.printf("번호    |      제목      |         %7s        |      작성자  |    조회\n", "날짜");
 		for(int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 			
-			System.out.printf("%7d |   %6s     |    %5s   |   %6s   |   %5d\n", article.id, article.title, article.regDate, article.memberId, article.hit);
+			String writerName = null;
+			
+			List<Member> members = Container.memberDao.members;
+			
+			for(Member member : members) {
+				if(article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+			
+			System.out.printf("%7d |   %6s     |    %5s   |   %6s   |   %5d\n", article.id, article.title, article.regDate, writerName , article.hit);
 		}
 		
 	}
@@ -114,7 +130,7 @@ public class ArticleController extends Controller {
 			return;
 		} else {
 			foundArticle.increaseHit();
-			
+									
 			System.out.printf("번호 : %d\n", foundArticle.id);
 			System.out.printf("날짜 : %s\n", foundArticle.regDate);
 			System.out.printf("제목 : %s\n", foundArticle.title);

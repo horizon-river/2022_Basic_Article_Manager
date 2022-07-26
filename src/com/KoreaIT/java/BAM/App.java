@@ -8,10 +8,6 @@ import com.KoreaIT.java.BAM.controller.MemberController;
 
 public class App {
 	
-	public App() {
-		
-	}
-	
 	public void run() {
 		
 		System.out.println("==프로그램 시작==");

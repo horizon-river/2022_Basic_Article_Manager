@@ -1,10 +1,9 @@
 package com.KoreaIT.java.BAM.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
@@ -18,7 +17,7 @@ public class MemberController extends Controller {
 	public MemberController(Scanner scan) {
 		this.scan = scan;
 		
-		members = new ArrayList<>();
+		members = Container.memberDao.members;
 	}
 	
 	public void doAction(String cmd, String actionMethodName) {
@@ -56,10 +55,24 @@ public class MemberController extends Controller {
 			return;
 		}
 		
-		System.out.printf("로그인 아이디 : ");
-		String loginId = scan.nextLine();
-		System.out.printf("로그인 비밀번호 : ");
-		String loginPw = scan.nextLine();
+		String loginId;
+		String loginPw;
+		
+		while(true) {
+			System.out.printf("로그인 아이디 : ");
+			loginId = scan.nextLine();
+			if(loginId.length() == 0) {
+				System.out.println("아이디를 입력해주세요");
+				continue;
+			}
+			System.out.printf("로그인 비밀번호 : ");
+			loginPw = scan.nextLine();
+			if(loginPw.length() == 0) {
+				System.out.println("아이디를 입력해주세요");
+				continue;
+			}
+			break;
+		}
 		
 		Member member = getMemberByLoginId(loginId);
 		
