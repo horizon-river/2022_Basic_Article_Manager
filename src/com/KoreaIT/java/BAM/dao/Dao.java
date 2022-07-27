@@ -1,6 +1,6 @@
 package com.KoreaIT.java.BAM.dao;
 
-public abstract class Dao {
+public class Dao {
 	protected int lastId;
 	
 	Dao(){
@@ -11,7 +11,7 @@ public abstract class Dao {
 		return lastId;
 	}
 	
-	public int getNewId() {
+	public int setNewId() {
 		return lastId + 1;
 	}
 }
