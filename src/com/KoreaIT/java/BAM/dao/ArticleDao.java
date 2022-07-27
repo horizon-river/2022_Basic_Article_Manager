@@ -8,6 +8,10 @@ import com.KoreaIT.java.BAM.dto.Article;
 public class ArticleDao extends Dao{
 	private List<Article> articles;
 	
+	public List<Article> getArticles() {
+		return articles;
+	}
+	
 	public ArticleDao() {
 		articles = new ArrayList<>();
 	}

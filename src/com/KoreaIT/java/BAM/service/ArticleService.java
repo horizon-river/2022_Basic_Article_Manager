@@ -12,5 +12,28 @@ public class ArticleService {
 		
 		return articles;
 	}
+
+	public Article getArticleById(int id) {
+		int index = getArticleIndexById(id);
+		
+		if(index != -1) {
+			return Container.articleDao.getArticles().get(index);
+		}
+				
+		return null;
+	
+	}
+	
+	private int getArticleIndexById(int id) {
+		int i = 0;
+		for(Article article : Container.articleDao.getArticles()) {
+			
+			if(article.id == id) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
 	
 }
