@@ -51,7 +51,7 @@ public class ArticleController extends Controller {
 	
 	private void doWrite() {
 		
-		int id = Container.articleDao.setNewId();
+		int id = articleService.setNewId();
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
 		String title = scan.nextLine();
@@ -59,7 +59,7 @@ public class ArticleController extends Controller {
 		String body = scan.nextLine();
 		
 		Article article = new Article(id, regDate, loginedMember.id, title, body);
-		Container.articleDao.add(article);
+		Container.articleService.add(article);
 		
 		System.out.printf("%d번글이 생성되었습니다.\n", id);
 		
@@ -109,7 +109,7 @@ public class ArticleController extends Controller {
 			
 		int id = Integer.parseInt(cmdBits[2]);
 		
-		Article foundArticle = getArticleById(id);
+		Article foundArticle = articleService.getArticleById(id);
 		
 		if(foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
@@ -139,32 +139,6 @@ public class ArticleController extends Controller {
 		
 	}
 	
-	private void doDelete() {
-		String[] cmdBits = cmd.split(" ");
-		
-		if(cmdBits.length == 2) {
-			System.out.println("명령어를 확인해주세요");
-			return;
-		}
-
-		int id = Integer.parseInt(cmdBits[2]);
-		
-		Article foundArticle = getArticleById(id);
-		
-		if(foundArticle == null) {
-			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
-			return;
-		}
-		
-		if(foundArticle.memberId != loginedMember.id) {
-			System.out.printf("권한이 없습니다\n");
-			return;
-		}
-		
-		articles.remove(foundArticle);	
-		System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
-	}
-	
 	private void doModify() {
 		String[] cmdBits = cmd.split(" ");
 		
@@ -175,7 +149,7 @@ public class ArticleController extends Controller {
 
 		int id = Integer.parseInt(cmdBits[2]);
 		
-		Article foundArticle = getArticleById(id);
+		Article foundArticle = articleService.getArticleById(id);
 		
 		if(foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
@@ -199,34 +173,38 @@ public class ArticleController extends Controller {
 		
 	}
 	
-	private Article getArticleById(int id) {
-		int index = getArticleIndexById(id);
+	private void doDelete() {
+		String[] cmdBits = cmd.split(" ");
 		
-		if(index != -1) {
-			return articles.get(index);
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+
+		int id = Integer.parseInt(cmdBits[2]);
+		
+		Article foundArticle = articleService.getArticleById(id);
+		
+		if(foundArticle == null) {
+			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+			return;
 		}
 		
-		return null;
-	}
-	
-	private int getArticleIndexById(int id) {
-		int i = 0;
-		for(Article article : articles) {
-			
-			if(article.id == id) {
-				return i;
-			}
-			i++;
+		if(foundArticle.memberId != loginedMember.id) {
+			System.out.printf("권한이 없습니다\n");
+			return;
 		}
-		return -1;
+		
+		articleService.remove(foundArticle);	
+		System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
 	}
 	
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
 		
-		Container.articleDao.add(new Article(Container.articleDao.setNewId(), Util.getNowDateStr(), 1, "제목1", "내용1", 11));
-		Container.articleDao.add(new Article(Container.articleDao.setNewId(), Util.getNowDateStr(), 2, "제목2", "내용2", 22));
-		Container.articleDao.add(new Article(Container.articleDao.setNewId(), Util.getNowDateStr(), 2, "제목3", "내용3", 33));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowDateStr(), 1, "제목1", "내용1", 11));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowDateStr(), 2, "제목2", "내용2", 22));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowDateStr(), 2, "제목3", "내용3", 33));
 	}
 	
 }
